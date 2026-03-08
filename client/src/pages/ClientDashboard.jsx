@@ -1,10 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  LayoutDashboard,
-  ClipboardList,
-  LogOut,
-} from "lucide-react";
+import { LayoutDashboard, ClipboardList, LogOut } from "lucide-react";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import toast from "react-hot-toast";
@@ -27,6 +23,8 @@ function ClientDashboard() {
 
   useEffect(() => {
     const fetchRequestCount = async () => {
+      await axios.get(`${BASE_URL}/auth/me`, { withCredentials: true });
+
       const res = await axios.get(`${BASE_URL}/client/me/dashboard`, {
         withCredentials: true,
       });
