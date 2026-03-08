@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Wrench } from "lucide-react";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function Services() {
   const [services, setServices] = useState([]);
@@ -14,7 +15,7 @@ function Services() {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/v1/service");
+      const res = await axios.get(`${BASE_URL}/service`);
       setServices(res.data);
     } catch (error) {
       console.error(error);

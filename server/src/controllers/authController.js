@@ -121,8 +121,9 @@ const login = async (req, res, next) => {
     const token = generateToken(userExists);
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "Lax",
-      secure: false,
+      sameSite: "None",
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24,
     });
 
     return res.status(200).json({

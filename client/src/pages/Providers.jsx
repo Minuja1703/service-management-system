@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function ProviderListing() {
   const { serviceId } = useParams();
@@ -16,7 +17,7 @@ function ProviderListing() {
   const fetchProviders = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/provider/${serviceId}/viewProviders`,
+        `${BASE_URL}/provider/${serviceId}/viewProviders`,
         { withCredentials: true }
       );
       setProviders(res.data);
