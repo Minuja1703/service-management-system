@@ -51,7 +51,6 @@ const verifyPayment = async (req, res) => {
 
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    console.log("hellogfgfvh")
     if (session.payment_status === "paid") {
       const payment = await Payment.findOne({ stripeSessionId: session_id });
 
@@ -61,7 +60,6 @@ const verifyPayment = async (req, res) => {
         });
       }
 
-      console.log("hiiiiiiiii54153")
       if (payment.paymentStatus !== "Paid") {
         payment.paymentStatus = "Paid";
         payment.paidAt = new Date();
@@ -79,16 +77,11 @@ const verifyPayment = async (req, res) => {
           });
         }
 
-        console.log("aajhvgjhvh")
-        console.log(serviceRequest);
-
         const updatedProvider = await ProviderProfile.findOneAndUpdate(
           { userId: serviceRequest.providerId },
           { $inc: { totalEarnings: Number(payment.amount) } },
           { returnDocument: "after" }
         );
-
-        console.log(updatedProvider);
 
         if (!updatedProvider) {
           return res
