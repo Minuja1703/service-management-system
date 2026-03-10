@@ -16,7 +16,7 @@ function Home() {
         </Link>
       </div>
 
-      <h3 className="text-center font-bold text-yellow-600 drop-shadow-lg mt-5">
+      <h3 className="text-center font-bold text-yellow-600 drop-shadow-lg my-5">
         "Because Every Home Deserves a Helping Bee."
       </h3>
     </>

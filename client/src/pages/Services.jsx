@@ -23,9 +23,9 @@ function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-200 p-10">
-      <h1 className="text-5xl font-bold text-center mb-14 text-slate-800">
-        Explore Our Services
+    <div className="min-h-screen bg-gradient-to-br from-orange-200 via-black/5 to-orange-400 p-10">
+      <h1 className="text-4xl font-bold text-center mb-14 text-yellow-600">
+        Services
       </h1>
 
       <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">

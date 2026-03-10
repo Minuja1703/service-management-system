@@ -22,16 +22,21 @@ function ClientDashboard() {
   });
 
   useEffect(() => {
-    const fetchRequestCount = async () => {
+    fetchRequestCount();
+  }, []);
+
+  const fetchRequestCount = async () => {
+    try {
       await axios.get(`${BASE_URL}/auth/me`, { withCredentials: true });
 
       const res = await axios.get(`${BASE_URL}/client/me/dashboard`, {
         withCredentials: true,
       });
       setRequestCount(res.data);
-    };
-    fetchRequestCount();
-  }, []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -209,7 +214,7 @@ function ClientDashboard() {
                       req.paymentStatus === "Pending" && (
                         <button
                           onClick={() => handlePayment(req)}
-                          className="font-semibold text-sm text-white rounded-xl px-4 py-2 bg-gradient-to-r from-indigo-700 to bg-indigo-900 hover:scale-105 transition-all duration-300 shadow-md"
+                          className="font-semibold text-sm text-white rounded-xl px-4 py-2 bg-gradient-to-r from-indigo-700 to bg-indigo-900 hover:scale-105 transition-all duration-300 shadow-md cursor-pointer"
                         >
                           Proceed to pay
                         </button>

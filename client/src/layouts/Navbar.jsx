@@ -4,7 +4,7 @@ import logo from "../assets/images/bee.png";
 
 function Navbar() {
   return (
-    <div className="text-yellow-600 flex justify-center items-center gap-28 p-2">
+    <div className="sticky top-0 z-50 text-yellow-600 flex justify-center items-center gap-28 py-3 bg-white/70 backdrop-blur-2xl border-b border-white/40">
       <Link to="/">
         <img src={logo} alt="" className="h-[70px] w-auto object-contain" />
       </Link>

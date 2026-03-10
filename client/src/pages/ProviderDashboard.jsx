@@ -30,16 +30,20 @@ function ProviderDashboard() {
   });
 
   useEffect(() => {
-    const fetchProviderDashboardData = async () => {
+    fetchProviderDashboardData();
+  }, []);
+
+  const fetchProviderDashboardData = async () => {
+    try {
       const res = await axios.get(`${BASE_URL}/provider/me/dashboard`, {
         withCredentials: true,
       });
 
       setDashboardData(res.data);
-    };
-
-    fetchProviderDashboardData();
-  }, []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -137,7 +141,7 @@ function ProviderDashboard() {
           <Stat title="Completed" value={dashboardData.completedRequests} />
           <Stat
             title="Total Earnings"
-            value={`₹${dashboardData.totalEarnings}`}
+            value={`AED ${dashboardData.totalEarnings}`}
             highlight
           />
         </div>
@@ -152,9 +156,19 @@ function ProviderDashboard() {
           </h2>
 
           <div className="space-y-4">
-            {dashboardData?.requests.map((request) => (
-              <RequestCard key={request._id} request={request} />
-            ))}
+            {dashboardData?.requests.length === 0 ? (
+              <p className="text-center text-slate-600 py-6">
+                No Requests available.
+              </p>
+            ) : (
+              dashboardData?.requests.map((request) => (
+                <RequestCard
+                  key={request._id}
+                  request={request}
+                  refreshDashboard={fetchProviderDashboardData}
+                />
+              ))
+            )}
           </div>
         </section>
 
@@ -172,7 +186,7 @@ function ProviderDashboard() {
             />
             <ProfileField
               label="Price"
-              value={`₹${dashboardData.providerProfile.price} / job`}
+              value={`AED ${dashboardData.providerProfile.price} / job`}
             />
             <ProfileField
               label="Experience"
@@ -206,7 +220,7 @@ const Stat = ({ title, value, highlight }) => (
   </div>
 );
 
-const RequestCard = ({ request }) => {
+const RequestCard = ({ request, refreshDashboard }) => {
   const [currentStatus, setCurrentStatus] = useState(request.status);
 
   const updateStatus = async (nextStatus) => {
@@ -218,6 +232,10 @@ const RequestCard = ({ request }) => {
       );
 
       setCurrentStatus(nextStatus);
+
+      toast.success(`Service ${nextStatus}.`);
+
+      refreshDashboard();
     } catch (error) {
       console.log(error);
     }
@@ -289,7 +307,7 @@ const RequestCard = ({ request }) => {
         {currentStatus === "Pending" && (
           <button
             onClick={() => updateStatus("Accepted")}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition cursor-pointer"
           >
             Accept
           </button>
@@ -298,7 +316,7 @@ const RequestCard = ({ request }) => {
         {currentStatus === "Accepted" && (
           <button
             onClick={() => updateStatus("In-progress")}
-            className="bg-amber-700 hover:bg-amber-800 text-white px-4 py-2 rounded-xl transition"
+            className="bg-amber-700 hover:bg-amber-800 text-white px-4 py-2 rounded-xl transition cursor-pointer"
           >
             Start Work
           </button>
@@ -307,7 +325,7 @@ const RequestCard = ({ request }) => {
         {currentStatus === "In-progress" && (
           <button
             onClick={() => updateStatus("Completed")}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl transition"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl transition cursor-pointer"
           >
             Completed
           </button>
@@ -316,11 +334,34 @@ const RequestCard = ({ request }) => {
         {currentStatus === "Pending" && (
           <button
             onClick={() => updateStatus("Cancelled")}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition"
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition cursor-pointer"
           >
             Reject
           </button>
         )}
+
+        {currentStatus === "Completed" &&
+          request.paymentStatus === "Pending" && (
+            <div className="flex items-center gap-1 px-3 py-2 rounded-lg border text-white text-sm bg-amber-600">
+              <CreditCard size={12} />
+              Payment Pending
+            </div>
+          )}
+
+        {currentStatus === "Completed" && request.paymentStatus === "Paid" && (
+          <div className="flex items-center gap-1 px-3 py-2 rounded-lg border text-white text-sm bg-green-900">
+            <CreditCard size={12} />
+            Paid
+          </div>
+        )}
+
+        {currentStatus === "Completed" &&
+          request.paymentStatus === "Failed" && (
+            <div className="flex items-center gap-1 px-3 py-2 rounded-lg border text-white text-sm bg-red-600">
+              <CreditCard size={12} />
+              Payment Failed
+            </div>
+          )}
       </div>
     </div>
   );

@@ -76,7 +76,7 @@ function ProviderListing() {
               {/* Details */}
               <div className="space-y-2 text-slate-600 mb-5">
                 <p>📍 Area: {provider.serviceAreas}</p>
-                <p>💰 Price: ₹{provider.price}</p>
+                <p>💰 Price: AED {provider.price}</p>
                 <p>📞 {provider.userId.phone}</p>
               </div>
 

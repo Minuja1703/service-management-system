@@ -2,6 +2,7 @@ const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const Payment = require("../models/paymentModel");
 const ServiceRequest = require("../models/serviceRequestModel");
+const ProviderProfile = require("../models/providerProfileModel");
 
 const createCheckoutSession = async (req, res) => {
   try {
@@ -51,14 +52,7 @@ const verifyPayment = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     if (session.payment_status === "paid") {
-      const payment = await Payment.findOneAndUpdate(
-        { stripeSessionId: session_id },
-        {
-          paymentStatus: "Paid",
-          paidAt: new Date(),
-        },
-        { new: true }
-      );
+      const payment = await Payment.findOne({ stripeSessionId: session_id });
 
       if (!payment) {
         return res.status(404).json({
@@ -66,10 +60,34 @@ const verifyPayment = async (req, res) => {
         });
       }
 
-      await ServiceRequest.findByIdAndUpdate(
+      if (payment.paymentStatus === "Paid") {
+        return res.json({
+          message: "Payment already verified.",
+        });
+      }
+
+      payment.paymentStatus = "Paid";
+      payment.paidAt = new Date();
+      await payment.save();
+
+      // const payment = await Payment.findOneAndUpdate(
+      //   { stripeSessionId: session_id },
+      //   {
+      //     paymentStatus: "Paid",
+      //     paidAt: new Date(),
+      //   },
+      //   { new: true }
+      // );
+
+      const serviceRequest = await ServiceRequest.findByIdAndUpdate(
         payment.serviceRequestId,
         { paymentStatus: "Paid" },
         { new: true }
+      );
+
+      await ProviderProfile.findOneAndUpdate(
+        { userId: serviceRequest.providerId },
+        { $inc: { totalEarnings: payment.amount } }
       );
 
       return res.json({

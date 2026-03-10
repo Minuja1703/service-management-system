@@ -34,25 +34,35 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAdminDashboardStats = async () => {
-      const res = await axios.get(`${BASE_URL}/admin/me/dashboard`, {
-        withCredentials: true,
-      });
-      setDashboardStats(res.data);
-    };
-
     fetchAdminDashboardStats();
   }, []);
 
-  const updateProviderStatus = (id) => {
+  const fetchAdminDashboardStats = async () => {
     try {
-      axios.patch(
+      const res = await axios.get(`${BASE_URL}/admin/me/dashboard`, {
+        withCredentials: true,
+      });
+
+      setDashboardStats(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateProviderStatus = async (id) => {
+    try {
+      await axios.patch(
         `${BASE_URL}/admin/verifyProvider/${id}`,
         {},
         { withCredentials: true }
       );
+
+      toast.success("Provider approved successfully.");
+
+      fetchAdminDashboardStats();
     } catch (error) {
       console.log(error);
+      toast.error("Failed to approve Provider.");
     }
   };
 
@@ -81,12 +91,19 @@ function AdminDashboard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(input);
     try {
       await axios.post(`${BASE_URL}/service/`, input, {
         withCredentials: true,
       });
+
       toast.success("Service added successfully.");
+
+      fetchAdminDashboardStats();
+
+      setInput({
+        name: "",
+        description: "",
+      });
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -130,7 +147,7 @@ function AdminDashboard() {
 
         <button
           onClick={handleLogout}
-          className="flex gap-3 text-red-500 hover:bg-red-50 p-3 rounded-xl"
+          className="flex gap-3 text-red-500 hover:bg-red-50 p-3 rounded-xl cursor-pointer"
         >
           <LogOut size={20} />
           Logout
@@ -175,46 +192,52 @@ function AdminDashboard() {
           <h2 className="text-2xl font-semibold mb-6">Provider Verification</h2>
 
           <div className="space-y-4">
-            {dashboardStats.filteredProviderRequests.map((req) => (
-              <div
-                key={req._id}
-                className="flex justify-between items-center bg-slate-50 p-6 rounded-2xl hover:shadow-md transition"
-              >
-                <div>
-                  <h3 className="font-semibold text-lg">{req.userId.name}</h3>
+            {dashboardStats.filteredProviderRequests.length === 0 ? (
+              <p className="text-slate-600 text-center py-6">
+                No Pending Provider Requests.
+              </p>
+            ) : (
+              dashboardStats.filteredProviderRequests.map((req) => (
+                <div
+                  key={req._id}
+                  className="flex justify-between items-center bg-slate-50 p-6 rounded-2xl hover:shadow-md transition"
+                >
+                  <div>
+                    <h3 className="font-semibold text-lg">{req.userId.name}</h3>
 
-                  <p className="text-slate-500 text-sm">{`Email : ${req.userId.email}`}</p>
+                    <p className="text-slate-500 text-sm">{`Email : ${req.userId.email}`}</p>
 
-                  <p className="text-slate-500 text-sm">{`Phone : ${req.userId.phone}`}</p>
+                    <p className="text-slate-500 text-sm">{`Phone : ${req.userId.phone}`}</p>
 
-                  <p className="text-slate-500 text-sm">
-                    {`Service : ${req.serviceOfferedId.name}`}
-                  </p>
+                    <p className="text-slate-500 text-sm">
+                      {`Service : ${req.serviceOfferedId.name}`}
+                    </p>
 
-                  <p className="text-slate-500 text-sm">
-                    {`Description : ${req.serviceOfferedId.description}`}
-                  </p>
+                    <p className="text-slate-500 text-sm">
+                      {`Description : ${req.serviceOfferedId.description}`}
+                    </p>
 
-                  <p className="text-slate-500 text-sm">{`Price : ${req.price} AED`}</p>
+                    <p className="text-slate-500 text-sm">{`Price : ${req.price} AED`}</p>
 
-                  <p className="text-slate-500 text-sm">
-                    {`Experience year(s) : ${req.experienceYears}`}
-                  </p>
+                    <p className="text-slate-500 text-sm">
+                      {`Experience year(s) : ${req.experienceYears}`}
+                    </p>
 
-                  <p className="text-slate-500 text-sm">{`Service Area : ${req.serviceAreas}`}</p>
+                    <p className="text-slate-500 text-sm">{`Service Area : ${req.serviceAreas}`}</p>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => updateProviderStatus(req.userId._id)}
+                      className="bg-green-500 text-white px-4 py-2 rounded-xl flex gap-2 items-center hover:bg-green-600"
+                    >
+                      <CheckCircle size={16} />
+                      Approve
+                    </button>
+                  </div>
                 </div>
-
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => updateProviderStatus(req.userId._id)}
-                    className="bg-green-500 text-white px-4 py-2 rounded-xl flex gap-2 items-center hover:bg-green-600"
-                  >
-                    <CheckCircle size={16} />
-                    Approve
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
 
@@ -224,7 +247,7 @@ function AdminDashboard() {
           ref={addServiceRef}
           className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-xl p-8"
         >
-          <h2 className="text-2xl font-semibold mb-6">Manage Services</h2>
+          <h2 className="text-2xl font-semibold mb-6">Add Service</h2>
 
           {/* ADD SERVICE */}
 
@@ -236,6 +259,8 @@ function AdminDashboard() {
                 name="name"
                 onChange={handleChange}
                 className="border px-4 py-2 rounded-xl w-64"
+                required
+                value={input.name}
               />
 
               <input
@@ -244,6 +269,8 @@ function AdminDashboard() {
                 name="description"
                 onChange={handleChange}
                 className="border px-4 py-2 rounded-xl w-96"
+                required
+                value={input.description}
               />
 
               <button

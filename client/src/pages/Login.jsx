@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import toast from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
 
 function Login() {
   const navigate = useNavigate();
@@ -51,13 +52,26 @@ function Login() {
     // className="w-full min-h-screen bg-cover bg-center px-5 flex items-center justify-center"
     // style={{ backgroundImage: `url(${coverImg})` }}
     >
-      <div className="min-h-screen flex flex-col items-center justify-center gap-5">
-        <img src={logo} alt="" className="h-[60px] w-auto object-contain" />
-        <div className="backdrop-blur-md w-full max-w-md border  rounded-2xl p-8 shadow-[0_0_25px_rgba(0,0,0,0.25)] border-black/5 bg-white/60">
+      <div className="min-h-screen bg-gradient-to-br from-orange-100 via-black/5 to-orange-400 flex flex-col items-center justify-center gap-5">
+        {/* Back to Home */}
+        <Link
+          to="/"
+          className="absolute top-6 left-6 flex items-center gap-2 text-slate-600 hover:text-yellow-800 transition"
+        >
+          <ArrowLeft size={18} />
+          Home
+        </Link>
+
+        <img
+          src={logo}
+          alt="Helper Bee Logo"
+          className="h-[60px] w-auto object-contain"
+        />
+        <div className="backdrop-blur-xl w-full max-w-md border rounded-2xl p-8 shadow-xl border-white bg-white">
           <h2 className="text-center font-semibold text-3xl mb-2">
             Welcome Back
           </h2>
-          <p className="text-center text-slate-300 mb-6">Sign in to continue</p>
+          <p className="text-center text-slate-500 mb-6">Sign in to continue</p>
           <form className="space-y-8" onSubmit={handleSubmit}>
             <input
               type="email"
@@ -79,7 +93,7 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer"
+              className="w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer hover:scale-105"
             >
               Login
             </button>

@@ -45,7 +45,7 @@ function HelpingbeeLogin() {
   };
 
   return (
-    <div className="flex items-center justify-center gap-8">
+    <div className="flex items-center justify-center gap-8 bg-gradient-to-br from-orange-200 via-black/5 to-orange-400">
       <img
         src={hbSignupImg}
         alt=""
