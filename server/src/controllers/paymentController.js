@@ -68,15 +68,21 @@ const verifyPayment = async (req, res) => {
         const serviceRequest = await ServiceRequest.findByIdAndUpdate(
           payment.serviceRequestId,
           { paymentStatus: "Paid" },
-          { returnDocument: after }
+          { returnDocument: "after" }
         );
+
+        if (!serviceRequest) {
+          return res.status(404).json({
+            message: "Service Request not found.",
+          });
+        }
 
         console.log(serviceRequest);
 
         const updatedProvider = await ProviderProfile.findOneAndUpdate(
           { userId: serviceRequest.providerId },
           { $inc: { totalEarnings: Number(payment.amount) } },
-          { returnDocument: after }
+          { returnDocument: "after" }
         );
 
         console.log(updatedProvider);
