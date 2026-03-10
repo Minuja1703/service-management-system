@@ -60,35 +60,22 @@ const verifyPayment = async (req, res) => {
         });
       }
 
-      if (payment.paymentStatus === "Paid") {
-        return res.json({
-          message: "Payment already verified.",
-        });
+      if (payment.paymentStatus !== "Paid") {
+        payment.paymentStatus = "Paid";
+        payment.paidAt = new Date();
+        await payment.save();
+
+        const serviceRequest = await ServiceRequest.findByIdAndUpdate(
+          payment.serviceRequestId,
+          { paymentStatus: "Paid" },
+          { new: true }
+        );
+
+        await ProviderProfile.findOneAndUpdate(
+          { userId: serviceRequest.providerId },
+          { $inc: { totalEarnings: payment.amount } }
+        );
       }
-
-      payment.paymentStatus = "Paid";
-      payment.paidAt = new Date();
-      await payment.save();
-
-      // const payment = await Payment.findOneAndUpdate(
-      //   { stripeSessionId: session_id },
-      //   {
-      //     paymentStatus: "Paid",
-      //     paidAt: new Date(),
-      //   },
-      //   { new: true }
-      // );
-
-      const serviceRequest = await ServiceRequest.findByIdAndUpdate(
-        payment.serviceRequestId,
-        { paymentStatus: "Paid" },
-        { new: true }
-      );
-
-      await ProviderProfile.findOneAndUpdate(
-        { userId: serviceRequest.providerId },
-        { $inc: { totalEarnings: payment.amount } }
-      );
 
       return res.json({
         success: true,
