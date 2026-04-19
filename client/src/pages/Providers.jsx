@@ -36,13 +36,13 @@ function ProviderListing() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-white p-10">
-      <h1 className="text-4xl font-bold text-center mb-12 text-slate-800">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-white px-4 sm:px-6 md:px-10 py-6 md:py-10">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-slate-800">
         Available Providers
       </h1>
 
       {providers.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-20 text-center">
+        <div className="flex flex-col items-center justify-center mt-12 md:mt-20 text-center px-4">
           <h2 className="text-2xl font-semibold text-slate-600">
             No Providers Currently Available
           </h2>
@@ -51,20 +51,21 @@ function ProviderListing() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {providers.map((provider) => (
             <div
               key={provider._id}
-              className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition duration-500 p-6 border border-slate-200"
+              className="bg-white rounded-2xl sm:rounded-3xl shadow-lg hover:shadow-2xl transition duration-300 p-4 sm:p-5 md:p-6 border border-slate-200"
             >
               {/* Profile Avatar */}
+
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-16 h-16 rounded-full bg-yellow-500 text-white flex items-center justify-center text-2xl font-bold">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-yellow-500 text-white flex items-center justify-center text-lg sm:text-xl md:text-2xl font-bold">
                   {provider.userId.name.charAt(0)}
                 </div>
 
                 <div>
-                  <h2 className="text-xl font-semibold text-slate-800">
+                  <h2 className="text-lg sm:text-xl font-semibold text-slate-800">
                     {provider.userId.name}
                   </h2>
                   <p className="text-sm text-slate-500">
@@ -74,16 +75,18 @@ function ProviderListing() {
               </div>
 
               {/* Details */}
-              <div className="space-y-2 text-slate-600 mb-5">
+
+              <div className="space-y-2 text-slate-600 mb-5 text-sm sm:text-base break-words">
                 <p>📍 Area: {provider.serviceAreas}</p>
                 <p>💰 Price: AED {provider.price}</p>
                 <p>📞 {provider.userId.phone}</p>
               </div>
 
               {/* Button */}
+
               <button
                 onClick={() => handleBook(provider)}
-                className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-3 rounded-xl font-semibold hover:scale-105 transform transition duration-300"
+                className="w-full text-sm sm:text-base bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-2.5 sm:py-3 rounded-xl font-semibold hover:scale-105 transform transition duration-300"
               >
                 Book This Provider
               </button>

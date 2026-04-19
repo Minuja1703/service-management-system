@@ -41,29 +41,34 @@ function SignUp() {
   };
 
   return (
-    <div
-    // className="w-full min-h-screen bg-cover bg-center px-5 flex items-center justify-center"
-    // style={{ backgroundImage: `url(${coverImg})` }}
-    >
-      <div className="min-h-screen flex flex-col items-center justify-center gap-5 bg-gradient-to-br from-orange-100 via-black/5 to-orange-400">
-        {/* Back to Home */}
-        <Link
-          to="/"
-          className="absolute top-6 left-6 flex items-center gap-2 text-slate-600 hover:text-yellow-800 transition"
-        >
-          <ArrowLeft size={18} />
-          Home
-        </Link>
-        <img src={logo} alt="" className="h-[60px] w-auto object-contain" />
-        <div className="backdrop-blur-md w-full max-w-md border rounded-2xl p-8 shadow-xl border-black/5 bg-white">
-          <form className="space-y-6 mt-5" onSubmit={handleSubmit}>
+    <div className="min-h-screen px-4 sm:px-6 py-8 flex items-center justify-center gap-5 bg-gradient-to-br from-orange-100 via-black/5 to-orange-400">
+      <Link
+        to="/"
+        className="absolute text-sm sm:text-base top-4 left-4 sm:left-6 sm:top-6 flex items-center gap-2 text-slate-600 hover:text-yellow-800 transition"
+      >
+        <ArrowLeft size={18} />
+        Home
+      </Link>
+
+      <div className="w-full max-w-md flex flex-col items-center gap-4 sm:gap-5">
+        <img
+          src={logo}
+          alt="Helper Bee Logo"
+          className="h-12 sm:h-[60px] w-auto object-contain"
+        />
+
+        <div className="backdrop-blur-md w-full max-w-md border rounded-2xl p-5 sm:p-8 shadow-xl border-black/5 bg-white/90">
+          <form
+            className="space-y-4 sm:space-y-5 mt-2 sm:mt-4"
+            onSubmit={handleSubmit}
+          >
             <input
               type="text"
               name="name"
               required
               placeholder="Name"
               onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+              className="w-full px-4 py-3 text-sm sm:text-base border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
             />
 
             <input
@@ -72,7 +77,7 @@ function SignUp() {
               required
               placeholder="Email"
               onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+              className="w-full px-4 py-3 text-sm sm:text-base border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
             />
 
             <input
@@ -81,7 +86,7 @@ function SignUp() {
               required
               placeholder="Password"
               onChange={handleChange}
-              className="border rounded-xl w-full px-4 py-3 placeholder-slate-600 bg-black/5 border-white/10"
+              className="border text-sm sm:text-base rounded-xl w-full px-4 py-3 placeholder-slate-600 bg-black/5 border-white/10"
             />
 
             <input
@@ -90,22 +95,25 @@ function SignUp() {
               required
               placeholder="Phone"
               onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+              className="w-full px-4 py-3 text-sm sm:text-base border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
             />
 
             <button
               type="submit"
-              className="w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer"
+              className="w-full py-3 rounded-xl bg-yellow-600 text-white font-semibold hover:bg-yellow-700 transition"
             >
               Sign Up
             </button>
           </form>
 
-          <p className="mt-6 text-center">
+          <p className="mt-5 sm:mt-6 text-center text-sm sm:text-base">
             Already have an account ?
-            <span className="text-amber-600 font-medium hover:underline">
-              <Link to="/login"> Login</Link>
-            </span>
+            <Link
+              to="/login"
+              className="text-amber-600 font-medium hover:underline ml-1"
+            >
+              Login
+            </Link>
           </p>
         </div>
       </div>

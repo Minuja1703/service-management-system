@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import coverImg from "../assets/images/image1.avif";
 import logo from "../assets/images/bee.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -48,64 +47,62 @@ function Login() {
   };
 
   return (
-    <div
-    // className="w-full min-h-screen bg-cover bg-center px-5 flex items-center justify-center"
-    // style={{ backgroundImage: `url(${coverImg})` }}
-    >
-      <div className="min-h-screen bg-gradient-to-br from-orange-100 via-black/5 to-orange-400 flex flex-col items-center justify-center gap-5">
-        {/* Back to Home */}
-        <Link
-          to="/"
-          className="absolute top-6 left-6 flex items-center gap-2 text-slate-600 hover:text-yellow-800 transition"
-        >
-          <ArrowLeft size={18} />
-          Home
-        </Link>
+    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-black/5 to-orange-400 flex flex-col items-center justify-center px-4 sm:px-6">
+      {/* Back to Home */}
+      <Link
+        to="/"
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 text-slate-600 text-sm sm:text-base hover:text-yellow-800 transition"
+      >
+        <ArrowLeft size={18} />
+        Home
+      </Link>
 
-        <img
-          src={logo}
-          alt="Helper Bee Logo"
-          className="h-[60px] w-auto object-contain"
-        />
-        <div className="backdrop-blur-xl w-full max-w-md border rounded-2xl p-8 shadow-xl border-white bg-white">
-          <h2 className="text-center font-semibold text-3xl mb-2">
-            Welcome Back
-          </h2>
-          <p className="text-center text-slate-500 mb-6">Sign in to continue</p>
-          <form className="space-y-8" onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="Email"
-              onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
-            />
+      <img
+        src={logo}
+        alt="Helper Bee Logo"
+        className="h-[50px] sm:h-[60px] mb-4 object-contain"
+      />
 
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="Password"
-              onChange={handleChange}
-              className="border rounded-xl w-full px-4 py-3 placeholder-slate-600 bg-black/5 border-white/10"
-            />
+      <div className="backdrop-blur-xl w-full max-w-md border rounded-2xl p-5 sm:p-6 md:p-8 shadow-xl border-white bg-white">
+        <h2 className="text-center font-semibold text-2xl sm:text-3xl mb-2">
+          Welcome Back
+        </h2>
+        <p className="text-center text-sm sm:text-base text-slate-500 mb-6">
+          Sign in to continue
+        </p>
+        <form className="space-y-5 sm:space-y-6" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="Email"
+            onChange={handleChange}
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+          />
 
-            <button
-              type="submit"
-              className="w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer hover:scale-105"
-            >
-              Login
-            </button>
-          </form>
+          <input
+            type="password"
+            name="password"
+            required
+            placeholder="Password"
+            onChange={handleChange}
+            className="border rounded-xl w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base placeholder-slate-600 bg-black/5 border-white/10"
+          />
 
-          <p className="mt-6 text-center">
-            Don't have an account ?
-            <span className="text-amber-600 font-medium hover:underline">
-              <Link to="/signup"> Sign Up</Link>
-            </span>
-          </p>
-        </div>
+          <button
+            type="submit"
+            className="w-full border py-2.5 text-sm sm:text-base sm:py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer transition hover:scale-105"
+          >
+            Login
+          </button>
+        </form>
+
+        <p className="mt-5 text-center sm:mt-6 text-sm sm:text-base">
+          Don't have an account ?
+          <span className="text-amber-600 font-medium hover:underline ml-1">
+            <Link to="/signup"> Sign Up</Link>
+          </span>
+        </p>
       </div>
     </div>
   );

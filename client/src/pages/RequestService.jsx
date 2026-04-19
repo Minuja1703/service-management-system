@@ -33,7 +33,7 @@ function RequestService() {
         withCredentials: true,
       });
 
-      navigate("/services");
+      navigate("/client-dashboard");
       toast.success("Service booked successfully.");
     } catch (error) {
       console.log(error);
@@ -42,15 +42,22 @@ function RequestService() {
   };
 
   return (
-    <div>
-      <div className="min-h-screen flex flex-col items-center justify-center gap-5 my-9">
-        <div className="backdrop-blur-md w-full max-w-md border rounded-2xl p-8 shadow-[0_0_25px_rgba(0,0,0,0.25)] border-black/5 bg-white/60">
-          <form className="space-y-6 mt-5" onSubmit={handleSubmit}>
-            <label htmlFor="description" className="text-lg block">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-10 py-6 md:py-10 bg-gradient-to-br from-slate-100 to-white">
+      <div className="backdrop-blur-md w-full max-w-md sm:max-w-lg md:max-w-xl border rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-[0_0_25px_rgba(0,0,0,0.25)] border-black/5 bg-white/70">
+        <h2 className="text-xl sm:text-2xl md:text-3xl text-center font-bold text-slate-800 mb-4 sm:mb-6">
+          Book Service
+        </h2>
+
+        <form className="space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
+          <div>
+            <label
+              htmlFor="description"
+              className="text-sm sm:text-base block font-medium mb-1"
+            >
               Task Description
             </label>
             <textarea
-              className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl text-sm sm:text-base placeholder-slate-500 bg-black/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400"
               name="description"
               cols="30"
               rows="5"
@@ -59,12 +66,17 @@ function RequestService() {
               required
               onChange={handleChange}
             ></textarea>
+          </div>
 
-            <label htmlFor="address" className="text-lg block">
+          <div>
+            <label
+              htmlFor="address"
+              className="text-sm sm:text-base block mb-1 font-medium"
+            >
               Your Address
             </label>
             <textarea
-              className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+              className="w-full px-3 text-sm sm:text-base sm:px-4 py-2.5 sm:py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400"
               name="address"
               id="address"
               cols="30"
@@ -73,23 +85,28 @@ function RequestService() {
               required
               onChange={handleChange}
             ></textarea>
+          </div>
 
-            <label className="text-lg block">Scheduled Date</label>
+          <div>
+            <label className="text-sm sm:text-base block mb-1 font-medium">
+              Scheduled Date
+            </label>
             <input
               type="date"
               name="scheduledDate"
               required
               onChange={handleChange}
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl text-sm sm:text-base bg-black/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
+          </div>
 
-            <button
-              type="submit"
-              className="w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer"
-            >
-              Book Service
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="w-full py-2.5 border sm:py-3 text-sm sm:text-base rounded-xl bg-yellow-600 text-white font-semibold hover:scale-105 transition"
+          >
+            Book Service
+          </button>
+        </form>
       </div>
     </div>
   );

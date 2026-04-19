@@ -8,6 +8,7 @@ import {
   XCircle,
   Plus,
   Trash,
+  Menu,
 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,8 @@ import toast from "react-hot-toast";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function AdminDashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const providerRequestRef = useRef(null);
 
   const addServiceRef = useRef(null);
@@ -122,48 +125,69 @@ function AdminDashboard() {
     <div className="flex min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 scroll-smooth">
       {/* SIDEBAR */}
 
-      <aside className="w-72 bg-white/70 backdrop-blur-lg shadow-xl p-8 flex flex-col justify-between">
-        <div>
-          <nav className="space-y-3">
-            <SidebarItem
-              icon={<LayoutDashboard size={20} />}
-              label="Dashboard"
-              active
-            />
+      <aside
+        className={`fixed md:static w-64 z-40 top-0 left-0 h-screen md:h-auto bg-white/80 backdrop-blur-lg shadow-xl p-6 transform transition-transform duration-300 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
+        <div className="h-full flex flex-col justify-between">
+          <div>
+            <nav className="space-y-3">
+              <SidebarItem
+                icon={<LayoutDashboard size={20} />}
+                label="Dashboard"
+                active
+              />
 
-            <SidebarItem
-              onClick={scrollToProviderRequest}
-              icon={<Users size={20} />}
-              label="Providers"
-            />
+              <SidebarItem
+                onClick={scrollToProviderRequest}
+                icon={<Users size={20} />}
+                label="Providers"
+              />
 
-            <SidebarItem
-              onClick={scrollToAddService}
-              icon={<Briefcase size={20} />}
-              label="Services"
-            />
-          </nav>
+              <SidebarItem
+                onClick={scrollToAddService}
+                icon={<Briefcase size={20} />}
+                label="Services"
+              />
+            </nav>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="flex gap-3 text-red-500 hover:bg-red-50 p-3 rounded-xl"
+          >
+            <LogOut size={20} />
+            Logout
+          </button>
         </div>
-
-        <button
-          onClick={handleLogout}
-          className="flex gap-3 text-red-500 hover:bg-red-50 p-3 rounded-xl cursor-pointer"
-        >
-          <LogOut size={20} />
-          Logout
-        </button>
       </aside>
+
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-30 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
 
       {/* MAIN CONTENT */}
 
-      <main className="flex-1 p-10 space-y-10">
-        <h1 className="text-4xl font-bold text-slate-800">
+      <main className="flex-1 px-4 sm:px-6 md:px-10 py-6 md:py-10 space-y-8">
+        <div className="md:hidden flex items-center gap-5 mb-6">
+          <button
+            className="p-2 shadow bg-white rounded-lg"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <Menu size={28} />
+          </button>
+        </div>
+
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800">
           Welcome Back, Admin
         </h1>
-
         {/* STATS */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:grid-cols-3 gap-4 sm:gap-6">
           <StatCard
             title="Pending Providers"
             value={dashboardStats.pendingProviders}
@@ -187,9 +211,11 @@ function AdminDashboard() {
 
         <section
           ref={providerRequestRef}
-          className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-xl p-8"
+          className="bg-white/70 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8"
         >
-          <h2 className="text-2xl font-semibold mb-6">Provider Verification</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
+            Provider Verification
+          </h2>
 
           <div className="space-y-4">
             {dashboardStats.filteredProviderRequests.length === 0 ? (
@@ -200,36 +226,38 @@ function AdminDashboard() {
               dashboardStats.filteredProviderRequests.map((req) => (
                 <div
                   key={req._id}
-                  className="flex justify-between items-center bg-slate-50 p-6 rounded-2xl hover:shadow-md transition"
+                  className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-slate-50 p-4 sm:p-6 rounded-2xl hover:shadow-md transition"
                 >
-                  <div>
-                    <h3 className="font-semibold text-lg">{req.userId.name}</h3>
+                  <div className="space-y-1 text-sm sm:text-base">
+                    <h3 className="font-semibold text-base sm:text-lg">
+                      {req.userId.name}
+                    </h3>
 
-                    <p className="text-slate-500 text-sm">{`Email : ${req.userId.email}`}</p>
+                    <p className="text-slate-500">{`Email : ${req.userId.email}`}</p>
 
-                    <p className="text-slate-500 text-sm">{`Phone : ${req.userId.phone}`}</p>
+                    <p className="text-slate-500">{`Phone : ${req.userId.phone}`}</p>
 
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-slate-500">
                       {`Service : ${req.serviceOfferedId.name}`}
                     </p>
 
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-slate-500">
                       {`Description : ${req.serviceOfferedId.description}`}
                     </p>
 
-                    <p className="text-slate-500 text-sm">{`Price : ${req.price} AED`}</p>
+                    <p className="text-slate-500">{`Price : ${req.price} AED`}</p>
 
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-slate-500">
                       {`Experience year(s) : ${req.experienceYears}`}
                     </p>
 
-                    <p className="text-slate-500 text-sm">{`Service Area : ${req.serviceAreas}`}</p>
+                    <p className="text-slate-500">{`Service Area : ${req.serviceAreas}`}</p>
                   </div>
 
                   <div className="flex gap-3">
                     <button
                       onClick={() => updateProviderStatus(req.userId._id)}
-                      className="bg-green-500 text-white px-4 py-2 rounded-xl flex gap-2 items-center hover:bg-green-600"
+                      className="w-full md:w-auto justify-center bg-green-500 text-white px-4 py-2 rounded-xl flex gap-2 items-center hover:bg-green-600"
                     >
                       <CheckCircle size={16} />
                       Approve
@@ -245,42 +273,45 @@ function AdminDashboard() {
 
         <section
           ref={addServiceRef}
-          className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-xl p-8"
+          className="bg-white/70 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8"
         >
-          <h2 className="text-2xl font-semibold mb-6">Add Service</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
+            Add Service
+          </h2>
 
           {/* ADD SERVICE */}
 
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-wrap gap-4 mb-6">
-              <input
-                type="text"
-                placeholder="Service Name"
-                name="name"
-                onChange={handleChange}
-                className="border px-4 py-2 rounded-xl w-64"
-                required
-                value={input.name}
-              />
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4"
+          >
+            <input
+              type="text"
+              placeholder="Service Name"
+              name="name"
+              onChange={handleChange}
+              className="border px-4 py-2 rounded-xl w-full sm:flex-1"
+              required
+              value={input.name}
+            />
 
-              <input
-                type="text"
-                placeholder="Description"
-                name="description"
-                onChange={handleChange}
-                className="border px-4 py-2 rounded-xl w-96"
-                required
-                value={input.description}
-              />
+            <input
+              type="text"
+              placeholder="Description"
+              name="description"
+              onChange={handleChange}
+              className="border px-4 py-2 rounded-xl w-full sm:flex-1"
+              required
+              value={input.description}
+            />
 
-              <button
-                type="submit"
-                className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-5 py-2 rounded-xl flex gap-2 items-center hover:scale-105 transition"
-              >
-                <Plus size={16} />
-                Add Service
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full sm:w-auto justify-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-5 py-2 rounded-xl flex gap-2 items-center hover:scale-105 transition"
+            >
+              <Plus size={16} />
+              Add Service
+            </button>
           </form>
 
           {/* SERVICE LIST */}

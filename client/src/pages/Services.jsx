@@ -23,48 +23,37 @@ function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-200 via-black/5 to-orange-400 p-10">
-      <h1 className="text-4xl font-bold text-center mb-14 text-yellow-600">
+    <div className="min-h-screen bg-gradient-to-br from-orange-200 via-black/5 to-orange-400 px-4 sm:px-6 lg:px-10 py-8">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-yellow-600">
         Services
       </h1>
 
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
         {services
           .filter((service) => service.isActive)
           .map((service) => (
             <div
               key={service._id}
-              className="group relative bg-white/60 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-2xl transition duration-500 overflow-hidden border border-white/40"
+              className="group bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden border border-white/40"
             >
-              {/* Image Section */}
-              <div className="relative overflow-hidden h-52">
-                <div className="h-52 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-600 text-white group-hover:scale-120 transition">
-                  <Wrench size={70} className="opacity-90" />
-                </div>
-                {/* <img
-                  src={
-                    "https://images.unsplash.com/photo-1521791136064-7986c2920216"
-                  }
-                  alt={service.name}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
-                /> */}
+              <div className="relative overflow-hidden h-40 sm:h-48 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-600">
+                <Wrench
+                  size={50}
+                  className="sm:w-[70px] sm:h-[70px] text-white opacity-90 group-hover:scale-110 transition"
+                />
 
-                {/* Gradient Overlay */}
-                {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div> */}
-
-                {/* Title on Image */}
-                <h2 className="absolute bottom-4 left-4 text-white text-2xl font-semibold">
+                <h2 className="absolute bottom-3 left-4 text-white text-lg sm:text-xl font-semibold">
                   {service.name}
                 </h2>
               </div>
 
-              {/* Content Section */}
-              <div className="p-6">
-                <p className="text-slate-600 mb-6">{service.description}</p>
-
+              <div className="p-4 sm:p-6">
+                <p className="text-slate-600 text-sm sm:text-base mb-4 sm:mb-6">
+                  {service.description}
+                </p>
                 <button
                   onClick={() => navigate(`/providers/${service._id}`)}
-                  className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:scale-105 transform transition duration-300 text-white py-3 rounded-xl font-semibold shadow-md"
+                  className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 active:scale-95 sm:hover:scale-105 transform transition duration-300 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"
                 >
                   Book Now
                 </button>

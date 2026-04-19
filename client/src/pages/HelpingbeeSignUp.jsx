@@ -59,40 +59,40 @@ function HelpingbeeSignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center gap-8 bg-gradient-to-br from-orange-200 via-black/5 to-orange-400">
-      <img
-        src={hbSignupImg}
-        alt=""
-        className="h-[400px] w-auto object-contain rounded"
-      />
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-6 px-4 py-8 bg-gradient-to-br from-orange-200 via-black/5 to-orange-400">
+      <div className="hidden md:flex justify-center">
+        <img
+          src={hbSignupImg}
+          alt="Helping Bee Sign Up Image"
+          className="max-h-[400px] w-auto object-contain rounded-xl"
+        />
+      </div>
 
-      <div className="flex flex-col items-center justify-center my-15">
-        <div className="backdrop-blur-md w-full max-w-md shadow-[0_0_25px_rgba(0,0,0,0.25)] border-black/5 rounded-2xl p-8  bg-white/60">
-          <h2 className="text-center font-semibold text-3xl mb-5">
+      <div className="w-full max-w-md">
+        <div className="backdrop-blur-md max-w-md shadow-[0_0_25px_rgba(0,0,0,0.25)] p-6 sm:p-8 border-black/5 rounded-2xl bg-white/70">
+          <h2 className="text-center font-semibold text-2xl sm:text-3xl mb-4">
             Start your earning journey
           </h2>
 
-          <p className="text-slate-800 mb-6 font-medium">
+          <p className="text-slate-800 mb-6 text-center font-medium text-sm sm:text-base">
             Transform your skills into steady income. Register now!
           </p>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label
               htmlFor="serviceOfferedId"
-              className="text-lg text-slate-600 block"
+              className="text-sm sm:text-base text-slate-600 block"
             >
               Select Service
             </label>
             <select
               name="serviceOfferedId"
               id="serviceOfferedId"
-              className="w-full px-4 py-3 border text-slate-600 rounded-xl bg-black/5 border-white/10"
+              className="w-full px-4 py-3 border rounded-xl text-sm sm:text-base bg-black/5 border-white/10"
               required
               onChange={handleChange}
             >
-              <option value="" className="text-black">
-                Select
-              </option>
+              <option value="">Select</option>
 
               {services.map((service) => (
                 <option
@@ -107,42 +107,46 @@ function HelpingbeeSignUp() {
 
             <button
               onClick={() => setShowModal(true)}
-              className="mt-3 w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer"
+              className="mt-3 w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer hover:bg-yellow-700 transition"
             >
               Get Started
             </button>
           </div>
 
-          <p className="mt-6 text-center">
+          <p className="mt-6 text-center text-sm sm:text-base">
             Already have an account ?
-            <span className="text-amber-600 font-medium hover:underline">
-              <Link to="/helpingbee-login"> Login</Link>
-            </span>
+            <Link
+              to="/helpingbee-login"
+              className="font-medium text-amber-600 hover:underline ml-1"
+            >
+              Login
+            </Link>
           </p>
         </div>
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 px-4 flex items-center justify-center">
-          <div className="max-h-[90vh] w-full max-w-2xl shadow-2xl p-8 rounded-2xl relative overflow-y-auto bg-white rounded-2xl">
-            <h1 className="text-center text-2xl font-bold mb-6">
+        <div className="fixed inset-0 z-50 bg-black/50 px-3 sm:px-4 flex items-center justify-center">
+          <div className="max-h-[90vh] w-full max-w-2xl shadow-2xl p-5 sm:p-8 rounded-2xl relative overflow-y-auto bg-white rounded-2xl">
+            <h1 className="text-center text-xl sm:text-2xl font-bold mb-5">
               Create your account
             </h1>
 
             <button
-              className="absolute top-4 right-4 text-gray-600 hover:text-black cursor-pointer text-xl"
+              className="absolute top-3 right-4 text-gray-600 hover:text-black text-lg"
               onClick={() => setShowModal(false)}
             >
               X
             </button>
-            <form className="space-y-5" onSubmit={handleSubmit}>
+
+            <form className="space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
               <input
                 type="text"
                 name="name"
                 required
                 placeholder="Name"
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+                className="w-full text-sm sm:text-base px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
               />
 
               <input
@@ -151,7 +155,7 @@ function HelpingbeeSignUp() {
                 required
                 placeholder="Email"
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+                className="w-full text-sm sm:text-base px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
               />
 
               <input
@@ -160,7 +164,7 @@ function HelpingbeeSignUp() {
                 required
                 placeholder="Password"
                 onChange={handleChange}
-                className="border rounded-xl w-full px-4 py-3 placeholder-slate-600 bg-black/5 border-white/10"
+                className="border rounded-xl w-full text-sm sm:text-base px-4 py-3 placeholder-slate-600 bg-black/5 border-white/10"
               />
 
               <input
@@ -169,17 +173,8 @@ function HelpingbeeSignUp() {
                 required
                 placeholder="Phone"
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+                className="w-full text-sm sm:text-base px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
               />
-
-              {/* <select className="w-full px-4 py-3 border rounded-xl bg-black/5 border-white/10 text-slate-600">
-                <option value="" disabled>
-                  Select Service
-                </option>
-                <option>Plumbing</option>
-                <option>Gardening</option>
-                <option>Cleaning</option>
-              </select> */}
 
               <input
                 type="number"
@@ -187,7 +182,7 @@ function HelpingbeeSignUp() {
                 required
                 placeholder="Price"
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+                className="w-full text-sm sm:text-base px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
               />
 
               <input
@@ -196,11 +191,11 @@ function HelpingbeeSignUp() {
                 required
                 placeholder="Experience Years"
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+                className="w-full text-sm sm:text-base px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
               />
 
               <textarea
-                className="w-full px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
+                className="w-full text-sm sm:text-base px-4 py-3 border rounded-xl placeholder-slate-600 bg-black/5 border-white/10"
                 name="serviceAreas"
                 cols="30"
                 rows="5"
@@ -211,7 +206,7 @@ function HelpingbeeSignUp() {
 
               <button
                 type="submit"
-                className="w-full border py-3 rounded-xl bg-yellow-600 text-white font-semibold cursor-pointer"
+                className="w-full py-3 rounded-xl bg-yellow-600 text-white font-semibold hover:bg-yellow-700 transition"
               >
                 Create Account
               </button>
