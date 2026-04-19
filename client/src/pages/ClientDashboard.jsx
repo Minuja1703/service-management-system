@@ -145,7 +145,7 @@ function ClientDashboard() {
             <h1 className="text-4xl font-bold mt-3">{requestCount.total}</h1>
           </div>
 
-          <div className="text-white bg-gradient-to-r from-green-500 to-green-800 rounded-3xl p-8 shadow-xl hover:scale-105 transition-all duration-300 border border-white/40">
+          <div className="text-white bg-gradient-to-r from-green-500 to-green-800 rounded-3xl p-5 sm:p-6 md:p-8 shadow-xl hover:scale-105 transition-all duration-300 border border-white/40">
             <p className="font-semibold">Completed</p>
             <h1 className="text-4xl font-bold mt-3">
               {requestCount.completed}
@@ -181,7 +181,7 @@ function ClientDashboard() {
               requestCount.clientReqs.map((req) => (
                 <div
                   key={req.serviceReqId}
-                  className={`flex sm:flex-row items-center justify-between gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl 
+                  className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl 
                   ${
                     req.serviceStatus === "Pending"
                       ? "hover:bg-yellow-50"
